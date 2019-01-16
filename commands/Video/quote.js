@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-//const sub3 = require("./../../data/iii.json").subs;
 const fnames = require("./../../data/names/_.json").main;
 const subs = []
 for (var i in fnames){
@@ -21,9 +20,6 @@ for (var sub_ in subs){
     var sub3=subs[sub_].subs;//console.log(sub_);
     for (var i in sub3) {
         var ii = stripKeepSpaces(sub3[i][2].toLowerCase());//"";
-//        for (var j = 0; j < sub3[i][2].length; j++) {
-  //          if ("qwertyuiopasdfghjklzxcvbnm ".indexOf(sub3[i][2].toLowerCase().charAt(j)) >= 0) ii += sub3[i][2].toLowerCase().charAt(j);
-    //    }
         ii = " "+ii+" ";
         var lc;
         for (var i2 = 0; i2 < ii.length - 2; i2++) {
@@ -34,10 +30,8 @@ for (var sub_ in subs){
                         if (lc === maxLevenshtein) {
                             q.push(sub3[i]);
                             qf.push(fnames[sub_])
-//                            console.log(lc+"="+sub3[i]+"     "+ii.slice(i2+1,j));
                         }
                         if (lc > maxLevenshtein){
-//                            console.log(lc+">"+sub3[i]+"/"+strip(message.content.slice(7).toLowerCase())+"/"+ii+"/"+i2+" "+j+" "+ii.slice(i2+1,j)+"//"+levenshtein(strip(message.content.slice(7).toLowerCase()),ii.slice(i2+1,j)));
                             maxLevenshtein=lc;
                             q = [];
                             qf = [];
@@ -48,10 +42,8 @@ for (var sub_ in subs){
                 }
             }
         }
-        //    if (matches(sub3[i][2].toLowerCase(),message.content.slice(7).toLowerCase())) q.push(sub3[i]);
     }
 }
- //   console.log(maxLevenshtein+"  "+q);
     if (q.length == 0) {
         message.channel.send("No quotes for that dialogue found. :(");
         return;
@@ -64,25 +56,18 @@ for (var sub_ in subs){
     for (var ii in q) {
         t = intT(q[ii][1].split(" --> ")[0]);
         t2 = intT(q[ii][1].split(" --> ")[1]);
- //       console.log(t+" "+t2+" "+weightedRandomTime(t,t2));
 
         await extractFrames({
             input: './data/'+qf[ii]+'.mp4',
             output: './data/screenshot-%i.jpg',
             offsets: [
-                weightedRandomTime(t,t2)
-                //   t + ((t2-t)/10)*1,
-                //   t + ((t2-t)/10)*3,
-                //t + ((t2 - t) / 10) * 5//,
-                //   t + ((t2-t)/10)*7,
-                //   t + ((t2-t)/10)*9
+                weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
             ]
         })
         message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
             files:
-                ["./data/screenshot-1.jpg"]//,"./data/screenshot-2.jpg","./data/screenshot-3.jpg"]//,"./data/screenshot-4.jpg","./data/screenshot-5.jpg",]
+                ["./data/screenshot-1.jpg"]
         })
-
 
     }
 }
