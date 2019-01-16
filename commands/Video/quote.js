@@ -58,7 +58,7 @@ module.exports.help = {
     name: "quote",
     cmdName: "Get screenshot from Revenge of the Sith",
     alias: [],
-    description: "Get screenshot from Revenge of the Sit.",
+    description: "Get screenshot from Revenge of the Sith.",
     botPermission: "",
     userPermissions: "",
     usage: "quote",
