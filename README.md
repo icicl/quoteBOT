@@ -13,6 +13,12 @@ The only command used by quoteBOT is ";quote <quote here>" and will display an i
   
 If the quote is not accurate, or there are typos within it, the bot will use a [Levenshtein Distance](https://en.wikipedia.org/wiki/Levenshtein_distance) Algorithm to find the most similar quote within the database.
 
+### Intallation
+requires: node.js, discord.js, ffmpeg-extract-frames
+you have to add movie files and subtitles to the /data/ directory - right now only .mp4 videos and .srt subtitles are supported
+the video and subtitles must have the exact same name
+once you have added new files (and removed all old ones, including unused subtitles), run `initializer.py` - this will convert subtitles to json and make a list of movies at /data/names/_.json
+
 ### TO-DO
 
 Add more movies to the database for a larger query to sample from.
