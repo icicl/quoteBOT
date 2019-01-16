@@ -19,6 +19,9 @@ you have to add movie files and subtitles to the /data/ directory - right now on
 the video and subtitles must have the exact same name
 once you have added new files (and removed all old ones, including unused subtitles), run `initializer.py` - this will convert subtitles to json and make a list of movies at /data/names/_.json
 
+### Invite Link
+https://discordapp.com/api/oauth2/authorize?client_id=517897194615865364&permissions=34816&scope=bot
+as of right now, the only movie it quotes from is Revenge of the Sith
 ### TO-DO
 
 Add more movies to the database for a larger query to sample from.
