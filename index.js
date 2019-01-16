@@ -74,9 +74,4 @@ client.on("message", async message => { // Everything Below Here & Indented With
     }
 });
 
-// AUTO-RESPONDER
-client.on("message", async message => {
-    require("./events/autoRespond").run(client, config, message);
-})
-
 //https://discordapp.com/api/oauth2/authorize?client_id=517897194615865364&permissions=34816&scope=bot
