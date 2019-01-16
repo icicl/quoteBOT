@@ -5,6 +5,8 @@ quoteBot is an original Discord bot that get screenshots from the 2005 movie, St
 
 This bot was made to have a single function: quote Star Wars Movies.
 
+![Capture](https://i.imgur.com/FU25lFJ.png)
+
 ### Commands
 
 The only command used by quoteBOT is ";quote <quote here>" and will display an image corresponding to the quote. 
