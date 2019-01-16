@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "discord.js": "^11.4.2",
-    "path": "^0.12.7",
-    "request": "^2.88.0"
+    "ffmpeg-extract-frames": "^2.0.0"
   }
 }
