@@ -1,7 +1,7 @@
 # quoteBOT
 **About this branch**
 
-quoteBot is an original Discord bot that get screenshots from the 2005 movie, Star Wars: Episode III – Revenge of the Sith. The code is written entirely in JavaScript using discord.js, other than an SRT to JSON converter that was written in Python 3.
+quoteBot is an original Discord bot that gets screenshots from the 2005 movie, Star Wars: Episode III – Revenge of the Sith. The code is written entirely in JavaScript using discord.js, other than an SRT to JSON converter that was written in Python 3.
 
 This bot was made to have a single function: quote Star Wars Movies.
 
@@ -15,19 +15,20 @@ If the quote is not accurate, or there are typos within it, the bot will use a [
 
 # Intallation
 ### Requires: 
-    node.js
-    discord.js
-    ffmpeg-extract-frames
+- node.js
+- discord.js
+- ffmpeg-extract-frames
+
 The bot can only function if the proper movie files and subtitles to the /data/ directory.
 
 As of now, only `.mp4 videos and .srt subtitles` are supported.
 
 The video and subtitles must have the same name for the bot to recognize the files.
 
-Once you have added new files (and removed all old ones, including unused subtitles), run `initializer.py` - this will convert subtitles to json and make a list of movies at /data/names/_.json
+Once you have added new files (and removed all old ones, including unused subtitles), run `initializer.py` - this will convert subtitles to JSON and make a list of movies at `/data/names/_.json`
 
 ### Invite Link
-[https://discordapp.com/api/oauth2/authorize?client_id=517897194615865364&permissions=34816&scope=bot](Invite Link)
+[Invite Link](https://discordapp.com/api/oauth2/authorize?client_id=517897194615865364&permissions=34816&scope=bot)
 
 As of now, the bot can only query movie quotes from Revenge of the Sith
 
