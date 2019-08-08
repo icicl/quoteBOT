@@ -1,6 +1,7 @@
 // AUTHENTICATION
 const Discord = require("discord.js"); //https://discord.js.org/#/docs/main/stable/general/welcome
 const client = new Discord.Client(); //Get "npm install opusscript"
+const root_path = '/home/dakota/epicbotsllc/quoteBOT'
 // CONFIGURATION FILES
 const config = require("./config/config.json");
 
@@ -16,16 +17,16 @@ client.aliases = new Discord.Collection();
 client.login(config.token);
 
 // LOADS COMMANDS
-let modules = fs.readdirSync('./commands/').filter(file => fs.statSync(path.join('./commands/', file)).isDirectory());
+let modules = fs.readdirSync(root_path+'/commands/').filter(file => fs.statSync(path.join(root_path+'/commands/', file)).isDirectory());
 for (let module of modules) {
     console.log(`============[FOLDER Set: ${module}]============`)
 
-    let commandFiles = fs.readdirSync(path.resolve(`./commands/${module}`)).
-        filter(file => !fs.statSync(path.resolve('./commands/', module, file)).isDirectory()).
+    let commandFiles = fs.readdirSync(path.resolve(root_path+`/commands/${module}`)).
+        filter(file => !fs.statSync(path.resolve(root_path+'/commands/', module, file)).isDirectory()).
         filter(file => file.endsWith('.js'));
 
     commandFiles.forEach((f, i) => {
-        let props = require(`./commands/${module}/${f}`);
+        let props = require(root_path+`/commands/${module}/${f}`);
         console.log(`Loaded: ${f} (${i + 1})`);
         client.commands.set(props.help.name, props);
         props.help.alias.forEach(alias => {

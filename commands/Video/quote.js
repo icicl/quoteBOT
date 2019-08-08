@@ -6,6 +6,8 @@ for (var i in fnames){
 }
 
 const extractFrames = require('ffmpeg-extract-frames')
+//const Jimp = require('jimp');
+const caption = require('caption');
 
 module.exports.run = async (client, config, message, args) => {
  //   console.log(message.author + " " + message.content); console.log(levenshtein("hello", "helo") + "  " + levenshtein("helo", "hello") + " " + " q ".split(" ").length + "  " + " " + "   ".split(" ").length);
@@ -26,7 +28,7 @@ for (var sub_ in subs){
             if (ii.charAt(i2) === ' ') {
                 for (var j = i2 + 2; j < ii.length; j++) {
                     if (ii.charAt(j) === ' ') {
-                        lc = levenshtein(strip(message.content.slice(7).toLowerCase()),ii.slice(i2+1,j)) - ((ii.length-j+i2-1)/(10*ii.length));
+                        lc = levenshtein(stripKeepSpaces(message.content.slice(7).toLowerCase()),ii.slice(i2+1,j)) - ((ii.length-j+i2-1)/(10*ii.length));
                         if (lc === maxLevenshtein) {
                             q.push(sub3[i]);
                             qf.push(fnames[sub_])
@@ -37,6 +39,7 @@ for (var sub_ in subs){
                             qf = [];
                             q.push(sub3[i]);
                             qf.push(fnames[sub_]);
+                            //console.log(sub3[i]);
                         }
                     }
                 }
@@ -56,7 +59,7 @@ for (var sub_ in subs){
     for (var ii in q) {
         t = intT(q[ii][1].split(" --> ")[0]);
         t2 = intT(q[ii][1].split(" --> ")[1]);
-
+//console.log(0);
         await extractFrames({
             input: './data/'+qf[ii]+'.mp4',
             output: './data/screenshot-%i.jpg',
@@ -64,10 +67,38 @@ for (var sub_ in subs){
                 weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
             ]
         })
-        message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
-            files:
-                ["./data/screenshot-1.jpg"]
-        })
+//        console.log(2);
+
+
+ /*       var fileName = "./data/screenshot-1.jpg";
+        var imageCaption = q[ii][2].replace(/\\/g, "\n");
+        var loadedImage;
+        Jimp.read(fileName)
+            .then(function (image) {
+                loadedImage = image;
+                return Jimp.loadFont(Jimp.FONT_SANS_16_BLACK);
+            })
+            .then(function (font) {
+                loadedImage.print(font, 10, 10, imageCaption)
+                           .write(fileName);
+            })
+            .catch(function (err) {
+                console.error(err);
+            });*/
+ //          caption.path("./data/screenshot-1.jpg",{
+ //               caption : q[ii][2].replace(/\\/g, "\n"),
+  //              outputFile : "./data/screenshot-1.jpg",
+   //           },function(err,filename){
+    //              if(err)console.log(err);
+                  message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
+                    files:
+                        ["./data/screenshot-1.jpg"]
+                })       
+                 //      })
+
+
+
+
 
     }
 }
