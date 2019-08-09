@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const fnames = require("./../../data/names/_.json").main;
+const fnames = ['thanos iw'];
 const subs = [];
 const root_path = '/home/dakota/epicbotsllc/quoteBOT';
 for (var i in fnames){
@@ -12,7 +12,7 @@ const caption = require('caption');
 
 module.exports.run = async (client, config, message, args) => {
  //   console.log(message.author + " " + message.content); console.log(levenshtein("hello", "helo") + "  " + levenshtein("helo", "hello") + " " + " q ".split(" ").length + "  " + " " + "   ".split(" ").length);
- var ml = -5;
+ var ml = -6;
 for (var i = 0;i<message.content.length;i++)ml+="qwertyuiopasdfghjklzxcvbn".indexOf(message.content.charAt(i))>=0?1:0;
 //if (ml<0){message.channel.send("Search query too small");
 //    return;}
@@ -163,12 +163,12 @@ function levenshtein(a, b) {
     } return 1 - Math.abs(u[n]) / b.length;
 }
 module.exports.help = {
-    name: "quote",
+    name: "thanos",
     cmdName: "Get screenshot from Revenge of the Sith",
     alias: [],
     description: "Get screenshot from Revenge of the Sit.",
     botPermission: "",
     userPermissions: "",
-    usage: "quote",
-    example: ["quote"]
+    usage: "thanos",
+    example: ["thanos"]
 }
