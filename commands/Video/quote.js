@@ -85,7 +85,7 @@ for (var sub_ in subs){
         message.channel.send("Too many instances");
         return;
     }
-    message.channel.send("Match found with " + (Math.round(maxLevenshtein*1000))/10 + " percent confidence:");
+    message.channel.send("Match found with " + (Math.round(calcConf(maxLevenshtein)*1000))/10 + " percent confidence:");
     for (var ii in q) {
         t = intT(q[ii][1].split(" --> ")[0]);
         t2 = intT(q[ii][1].split(" --> ")[1]);
@@ -161,6 +161,9 @@ function levenshtein(a, b) {
             u[j] = a[i - 1] === b[j - 1] ? t[j - 1] : Math.min(t[j - 1], t[j], u[j - 1]) + 1;
         } t = u;
     } return 1 - Math.abs(u[n]) / b.length;
+}
+function calcConf(p){
+    return Math.pow(p,5)*(6-5*p);
 }
 module.exports.help = {
     name: "quote",

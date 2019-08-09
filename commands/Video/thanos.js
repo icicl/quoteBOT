@@ -2,6 +2,8 @@ const Discord = require("discord.js");
 const fnames = ['thanos iw'];
 const subs = [];
 const root_path = '/home/dakota/epicbotsllc/quoteBOT';
+const fs = require('fs');
+
 for (var i in fnames){
     subs.push(require(root_path+"/data/"+fnames[i]+".json"));
 }
@@ -11,6 +13,11 @@ const extractFrames = require('ffmpeg-extract-frames')
 const caption = require('caption');
 
 module.exports.run = async (client, config, message, args) => {
+//    if (fs.existsSync(root_path+'/thanos')){
+//        message.channel.send("spammer no spamming >;(");
+//        return;
+//    }
+//    fs.writeFileSync(root_path+"/thanos");
  //   console.log(message.author + " " + message.content); console.log(levenshtein("hello", "helo") + "  " + levenshtein("helo", "hello") + " " + " q ".split(" ").length + "  " + " " + "   ".split(" ").length);
  var ml = -6;
 for (var i = 0;i<message.content.length;i++)ml+="qwertyuiopasdfghjklzxcvbn".indexOf(message.content.charAt(i))>=0?1:0;
@@ -27,22 +34,24 @@ if (ml<=0){
     message.channel.send("selecting random quote");
     await extractFrames({
         input: root_path+'/data/'+qf+'.mp4',
-        output: root_path+'/data/screenshot-%i.jpg',
+        output: root_path+'/data/thanos-%i.jpg',
         offsets: [
             weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
         ]
     })
 
-    caption.path(root_path+"/data/screenshot-1.jpg",{
+    caption.path(root_path+"/data/thanos-1.jpg",{
         caption : q[2].replace(/\\/g, "\n"),
-        outputFile : root_path+"/data/screenshot-1.jpg",
+        outputFile : root_path+"/data/thanos-1.jpg",
         },function(err,filename){
             if(err)console.log(err);
             message.channel.send("Movie: "+qf+"\nTimeframe: " + q[1] + "\nDialogue: " + q[2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
             files:
-                [root_path+"/data/screenshot-1.jpg"]
+                [root_path+"/data/thanos-1.jpg"]
         })       
                 })
+                console.log(0);
+ //       fs.unlinkSync(root_path+"/thanos");
 return;}
 
    var q = [];
@@ -58,7 +67,7 @@ for (var sub_ in subs){
             if (ii.charAt(i2) === ' ') {
                 for (var j = i2 + 2; j < ii.length; j++) {
                     if (ii.charAt(j) === ' ') {
-                        lc = levenshtein(stripKeepSpaces(message.content.slice(7).toLowerCase()),ii.slice(i2+1,j)) - ((ii.length-j+i2-1)/(10*ii.length));
+                        lc = levenshtein(stripKeepSpaces(message.content.slice(8).toLowerCase()),ii.slice(i2+1,j)) - ((ii.length-j+i2-1)/(10*ii.length));
                         if (lc === maxLevenshtein) {
                             q.push(sub3[i]);
                             qf.push(fnames[sub_])
@@ -79,32 +88,34 @@ for (var sub_ in subs){
 }
     if (q.length == 0) {
         message.channel.send("No quotes for that dialogue found. :(");
+ //       fs.unlink(root_path+"/thanos");
         return;
     }
     if (q.length > 6) {
         message.channel.send("Too many instances");
+ //       fs.unlink(root_path+"/thanos");
         return;
     }
-    message.channel.send("Match found with " + (Math.round(maxLevenshtein*1000))/10 + " percent confidence:");
+    message.channel.send("Match found with " + (Math.round(calcConf(maxLevenshtein)*1000))/10 + " percent confidence:");
     for (var ii in q) {
         t = intT(q[ii][1].split(" --> ")[0]);
         t2 = intT(q[ii][1].split(" --> ")[1]);
         await extractFrames({
             input: root_path+'/data/'+qf[ii]+'.mp4',
-            output: root_path+'/data/screenshot-%i.jpg',
+            output: root_path+'/data/thanos-%i.jpg',
             offsets: [
                 weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
             ]
         })
 
-           caption.path(root_path+"/data/screenshot-1.jpg",{
+           caption.path(root_path+"/data/thanos-1.jpg",{
                 caption : q[ii][2].replace(/\\/g, "\n"),
-                outputFile : root_path+"/data/screenshot-1.jpg",
+                outputFile : root_path+"/data/thanos-1.jpg",
               },function(err,filename){
                   if(err)console.log(err);
                   message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
                     files:
-                        [root_path+"/data/screenshot-1.jpg"]
+                        [root_path+"/data/thanos-1.jpg"]
                 })       
                        })
 
@@ -113,6 +124,7 @@ for (var sub_ in subs){
 
 
     }
+ //   fs.unlink(root_path+"/thanos");
 }
 function intT(s) {
     return (3600 * (parseInt(s.split(":")[0])) + 60 * parseInt(s.split(":")[1]) + parseInt(s.split(":")[2].split(",")[0])) * 1000 + parseInt(s.split(":")[2].split(",")[1]);
@@ -161,6 +173,9 @@ function levenshtein(a, b) {
             u[j] = a[i - 1] === b[j - 1] ? t[j - 1] : Math.min(t[j - 1], t[j], u[j - 1]) + 1;
         } t = u;
     } return 1 - Math.abs(u[n]) / b.length;
+}
+function calcConf(p){
+    return Math.pow(p,5)*(6-5*p);
 }
 module.exports.help = {
     name: "thanos",

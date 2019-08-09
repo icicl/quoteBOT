@@ -2,6 +2,8 @@
 const Discord = require("discord.js"); //https://discord.js.org/#/docs/main/stable/general/welcome
 const client = new Discord.Client(); //Get "npm install opusscript"
 const root_path = '/home/dakota/epicbotsllc/quoteBOT'
+var active = false;
+var spammessage=true;
 // CONFIGURATION FILES
 const config = require("./config/config.json");
 
@@ -34,6 +36,7 @@ for (let module of modules) {
         });
     });
 }
+if (fs.existsSync(root_path+'/thanos'))fs.unlinkSync(root_path+"/thanos");
 
 // CONFIRM READY
 client.on("ready", () => {
@@ -62,7 +65,11 @@ client.on("message", async message => { // Everything Below Here & Indented With
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
     let commandfile = cmd.slice(prefix.length);
-
+    if(active){
+        if (spammessage){message.channel.send('spam makes me sad ;(');spammessage=false;}
+        return;}
+    active = true;
+    setTimeout(function(){active=false;spammessage=true},2500);
     let execCMD;
     if (client.commands.has(commandfile)) {
         execCMD = client.commands.get(commandfile);
