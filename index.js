@@ -4,6 +4,7 @@ const client = new Discord.Client(); //Get "npm install opusscript"
 const root_path = '/home/dakota/epicbotsllc/quoteBOT'
 var active = false;
 var spammessage=true;
+let cooldown = [];
 // CONFIGURATION FILES
 const config = require("./config/config.json");
 
@@ -65,11 +66,25 @@ client.on("message", async message => { // Everything Below Here & Indented With
     let cmd = messageArray[0];
     let args = messageArray.slice(1);
     let commandfile = cmd.slice(prefix.length);
-    if(active){
-        if (spammessage){message.channel.send('spam makes me sad ;(');spammessage=false;}
-        return;}
-    active = true;
-    setTimeout(function(){active=false;spammessage=true},2500);
+    for (let users in cooldown) {
+        if (cooldown[users] === message.author.id) {
+            console.log(message.author.id);
+            message.author.send(spam());
+            message.reply(spam());
+            return;
+        }
+    }
+    cooldown.push(message.author.id);
+    setTimeout(() => {
+        for (let users in cooldown) {
+            if (cooldown[users] === message.author.id) {
+                delete cooldown[users];break;}}
+    }, 5000);
+//    if(active){
+//        if (spammessage){message.channel.send('spam makes me sad ;(');spammessage=false;}
+//        return;}
+//    active = true;
+//    setTimeout(function(){active=false;spammessage=true},2000);
     let execCMD;
     if (client.commands.has(commandfile)) {
         execCMD = client.commands.get(commandfile);
@@ -81,5 +96,12 @@ client.on("message", async message => { // Everything Below Here & Indented With
         execCMD.run(client, config, message, args);
     }
 });
+
+function spam(){
+    m = ['everytime you spam a transistor dies inside :(','spamming isn\'t nice :(','you\'re mean, *spammer* :(','spamming makes me sad :(','spam is bad'];
+    r = ['spamming is a sin','fr||i||ck you, spammer >;(','https://proxy.duckduckgo.com/iu/?u=https%3A%2F%2Fi5.walmartimages.com%2Fasr%2F220b9405-3e45-4410-8996-1db6e5262f3a_1.dcef6a080c598b7fbcd60de1456562cd.jpeg&f=1']
+    if (Math.random()*m.length>1)return m[Math.floor(Math.random()*m.length)];
+    return r[Math.floor(Math.random()*r.length)];
+}
 
 //https://discordapp.com/api/oauth2/authorize?client_id=517897194615865364&permissions=34816&scope=bot

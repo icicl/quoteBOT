@@ -3,6 +3,7 @@ const fnames = ['thanos iw'];
 const subs = [];
 const root_path = '/home/dakota/epicbotsllc/quoteBOT';
 const fs = require('fs');
+let nonce = Math.floor(Math.random()*64);
 
 for (var i in fnames){
     subs.push(require(root_path+"/data/"+fnames[i]+".json"));
@@ -34,20 +35,20 @@ if (ml<=0){
     message.channel.send("selecting random quote");
     await extractFrames({
         input: root_path+'/data/'+qf+'.mp4',
-        output: root_path+'/data/thanos-%i.jpg',
+        output: root_path+'/data/thanos'+nonce+'-%i.jpg',
         offsets: [
             weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
         ]
     })
 
-    caption.path(root_path+"/data/thanos-1.jpg",{
+    caption.path(root_path+"/data/thanos"+nonce+"-1.jpg",{
         caption : q[2].replace(/\\/g, "\n"),
-        outputFile : root_path+"/data/thanos-1.jpg",
+        outputFile : root_path+"/data/thanos"+nonce+"-1.jpg",
         },function(err,filename){
             if(err)console.log(err);
             message.channel.send("Movie: "+qf+"\nTimeframe: " + q[1] + "\nDialogue: " + q[2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
             files:
-                [root_path+"/data/thanos-1.jpg"]
+                [root_path+"/data/thanos"+nonce+"-1.jpg"]
         })       
                 })
                 console.log(0);
@@ -102,20 +103,20 @@ for (var sub_ in subs){
         t2 = intT(q[ii][1].split(" --> ")[1]);
         await extractFrames({
             input: root_path+'/data/'+qf[ii]+'.mp4',
-            output: root_path+'/data/thanos-%i.jpg',
+            output: root_path+'/data/thanos'+nonce+'-%i.jpg',
             offsets: [
                 weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
             ]
         })
 
-           caption.path(root_path+"/data/thanos-1.jpg",{
+           caption.path(root_path+"/data/thanos"+nonce+"-1.jpg",{
                 caption : q[ii][2].replace(/\\/g, "\n"),
-                outputFile : root_path+"/data/thanos-1.jpg",
+                outputFile : root_path+"/data/thanos"+nonce+"-1.jpg",
               },function(err,filename){
                   if(err)console.log(err);
                   message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
                     files:
-                        [root_path+"/data/thanos-1.jpg"]
+                        [root_path+"/data/thanos"+nonce+"-1.jpg"]
                 })       
                        })
 

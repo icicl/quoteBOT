@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const fnames = require("./../../data/names/_.json").main;
 const subs = [];
 const root_path = '/home/dakota/epicbotsllc/quoteBOT';
+let nonce = Math.floor(Math.random()*64);
 for (var i in fnames){
     subs.push(require(root_path+"/data/"+fnames[i]+".json"));
 }
@@ -11,6 +12,7 @@ const extractFrames = require('ffmpeg-extract-frames')
 const caption = require('caption');
 
 module.exports.run = async (client, config, message, args) => {
+    nonce = nonce%64+1
  //   console.log(message.author + " " + message.content); console.log(levenshtein("hello", "helo") + "  " + levenshtein("helo", "hello") + " " + " q ".split(" ").length + "  " + " " + "   ".split(" ").length);
  var ml = -5;
 for (var i = 0;i<message.content.length;i++)ml+="qwertyuiopasdfghjklzxcvbn".indexOf(message.content.charAt(i))>=0?1:0;
@@ -27,20 +29,20 @@ if (ml<=0){
     message.channel.send("selecting random quote");
     await extractFrames({
         input: root_path+'/data/'+qf+'.mp4',
-        output: root_path+'/data/screenshot-%i.jpg',
+        output: root_path+'/data/screenshot'+nonce+'-%i.jpg',
         offsets: [
             weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
         ]
     })
 
-    caption.path(root_path+"/data/screenshot-1.jpg",{
+    caption.path(root_path+"/data/screenshot"+nonce+"-1.jpg",{
         caption : q[2].replace(/\\/g, "\n"),
-        outputFile : root_path+"/data/screenshot-1.jpg",
+        outputFile : root_path+"/data/screenshot"+nonce+"-1.jpg",
         },function(err,filename){
             if(err)console.log(err);
             message.channel.send("Movie: "+qf+"\nTimeframe: " + q[1] + "\nDialogue: " + q[2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
             files:
-                [root_path+"/data/screenshot-1.jpg"]
+                [root_path+"/data/screenshot"+nonce+"-1.jpg"]
         })       
                 })
 return;}
@@ -91,20 +93,20 @@ for (var sub_ in subs){
         t2 = intT(q[ii][1].split(" --> ")[1]);
         await extractFrames({
             input: root_path+'/data/'+qf[ii]+'.mp4',
-            output: root_path+'/data/screenshot-%i.jpg',
+            output: root_path+'/data/screenshot'+nonce+'-%i.jpg',
             offsets: [
                 weightedRandomTime(t,t2)//can have multiple screenshots - just put weightedRandomTime(t,t2) in more times
             ]
         })
 
-           caption.path(root_path+"/data/screenshot-1.jpg",{
+           caption.path(root_path+"/data/screenshot"+nonce+"-1.jpg",{
                 caption : q[ii][2].replace(/\\/g, "\n"),
-                outputFile : root_path+"/data/screenshot-1.jpg",
+                outputFile : root_path+"/data/screenshot"+nonce+"-1.jpg",
               },function(err,filename){
                   if(err)console.log(err);
                   message.channel.send("Movie: "+qf[ii]+"\nTimeframe: " + q[ii][1] + "\nDialogue: " + q[ii][2].replace(/\\/g, "\n") + "\n\nPossible screenshots:", {
                     files:
-                        [root_path+"/data/screenshot-1.jpg"]
+                        [root_path+"/data/screenshot"+nonce+"-1.jpg"]
                 })       
                        })
 
